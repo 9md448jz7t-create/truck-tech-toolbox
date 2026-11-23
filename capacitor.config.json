@@ -1,0 +1,14 @@
+{
+  "appId": "ca.trucktechtoolbox.app",
+  "appName": "Truck Tech Toolbox",
+  "server": {
+    "cleartext": false,
+    "url": "https://trucktechtoolbox.ca"
+  },
+  "webDir": "www",
+  "plugins": {
+    "NativePurchases": {
+      "autoFinishTransactions": false
+    }
+  }
+}

@@ -1,0 +1,9 @@
+# Node dependencies (CI installs with `npm ci`)
+node_modules/
+
+# Android signing keys + manual-build outputs (keystores, signed bundles).
+# NEVER commit these — they are secrets.
+manual-build/
+
+# OS / editor noise
+.DS_Store

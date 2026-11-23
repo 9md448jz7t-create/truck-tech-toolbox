@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation|density"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBarLaunch"
+            android:launchMode="singleTask"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
+        <!-- Google Play Billing (playbilling1, 2026-11-20): the purchase
+             sheet runs in these two activities, declared here because the
+             manual build does no manifest merging — AGP would merge them
+             from the billingclient AAR instead. -->
+        <activity
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.android.billingclient.api.ProxyBillingActivityV2"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="9.1.0" />
+
+        <!-- play-services-base: GoogleApiActivity (resolution flows). -->
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- Belt-and-braces (v3, 2026-11-22): the same three initializer
+             entries the build script injects under the
+             InitializationProvider. AppInitializer reads ONLY the provider
+             meta-data; these application-level copies are redundant but
+             harmless, so both discovery styles find them. -->
+        <meta-data
+            android:name="androidx.emoji2.text.EmojiCompatInitializer"
+            android:value="androidx.startup" />
+        <meta-data
+            android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+            android:value="androidx.startup" />
+        <meta-data
+            android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+            android:value="androidx.startup" />
+
+        <!-- datatransport-runtime (billing telemetry): its scheduler
+             service, alarm receiver and backend discovery. The
+             TransportBackendDiscovery service is declared once here
+             (both the runtime and the cct backend AARs declare it). -->
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false" />
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct" />
+        </service>
+    </application>
+
+    <!-- Permissions -->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Google Play Billing: lets the app talk to Play's billing service. -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <!-- datatransport-runtime (billing telemetry). -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Package-visibility queries (Android 11+): without these the app
+         cannot see or bind Play's billing service. From the
+         billingclient AAR manifest. -->
+    <queries>
+        <intent>
+            <action android:name="com.android.vending.billing.InAppBillingService.BIND" />
+        </intent>
+        <intent>
+            <action android:name="com.google.android.apps.play.billingtestcompanion.BillingOverrideService.BIND" />
+        </intent>
+    </queries>
+</manifest>

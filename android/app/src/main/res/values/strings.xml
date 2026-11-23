@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Truck Tech Toolbox</string>
+    <string name="title_activity_main">Truck Tech Toolbox</string>
+    <string name="package_name">ca.trucktechtoolbox.app</string>
+    <string name="custom_url_scheme">ca.trucktechtoolbox.app</string>
+</resources>
