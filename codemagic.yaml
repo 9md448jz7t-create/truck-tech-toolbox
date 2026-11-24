@@ -56,14 +56,11 @@ workflows:
           xcode-project build-ipa \
             --project "$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME"
+      - name: Publish to App Store Connect (upload only, no TestFlight submission)
+        script: |
+          app-store-connect publish \
+            --path build/ios/ipa/App.ipa \
+            --altool-additional-arguments "--apple-id '$APP_STORE_APPLE_ID'"
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-    publishing:
-      app_store_connect:
-        auth: integration
-        # false = upload only; build is auto-available to INTERNAL TestFlight
-        # testers after processing, no review. For EXTERNAL testers, fill in
-        # TestFlight test info in App Store Connect, set this to true, and add
-        # external beta_groups below.
-        submit_to_testflight: false
