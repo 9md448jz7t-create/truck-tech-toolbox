@@ -39,6 +39,7 @@ workflows:
         script: |
           keychain initialize
           echo "$CERTIFICATE_PRIVATE_KEY" | openssl base64 -d -out "$HOME/certificate_key.pem"
+          openssl pkey -in "$HOME/certificate_key.pem" -noout -check
           app-store-connect fetch-signing-files "$BUNDLE_ID" \
             --type IOS_APP_STORE \
             --certificate-key "$HOME/certificate_key.pem" \
