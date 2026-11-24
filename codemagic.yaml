@@ -1,7 +1,7 @@
 # Codemagic workflow: build a Capacitor iOS app and upload to TestFlight.
 #
 # BUNDLE_ID is set (ca.trucktechtoolbox.app).
-# APP_STORE_APP_ID is set (6838518743, from the App Store Connect URL).
+# APP_STORE_APPLE_ID is set (6838782228, from the App Store Connect URL).
 # ASC integration name is set ("Truck Tech Toolbox", the Apple Developer
 # Portal integration in Codemagic -> Team settings -> Integrations).
 #
@@ -23,7 +23,7 @@ workflows:
         XCODE_PROJECT: "ios/App/App.xcodeproj"
         XCODE_SCHEME: "App"
         BUNDLE_ID: "ca.trucktechtoolbox.app"
-        APP_STORE_APPLE_ID: "6838518743"
+        APP_STORE_APPLE_ID: "6838782228"
       node: 22            # Capacitor 8 CLI requires Node >= 22
       xcode: latest
     scripts:
